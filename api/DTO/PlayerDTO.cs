@@ -1,0 +1,1 @@
+public record PlayerDTO(int Id, string? RealName, string? PlayerName, string? Asset);
