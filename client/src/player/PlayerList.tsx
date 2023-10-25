@@ -1,16 +1,8 @@
-import { useState } from "react";
+import useFetchPlayers from "../hooks/PlayersHooks";
 import { Player } from "../types/player";
-import config from "../types/config";
 
 const PlayerList = () => {
-    const [players, setPlayers] = useState<Player[]>([]);
-
-    const fetchPlayers = async () =>{
-        const rsp = await fetch(`${config.baseApiUrl}/players`);
-        const players = await rsp.json();
-        setPlayers(players);
-    } 
-    fetchPlayers();
+    const players = useFetchPlayers();
 
     return (
         <div>
@@ -30,10 +22,10 @@ const PlayerList = () => {
         <tbody>
           {
             players.map((p: Player) => (
-              <tr key={p.id}>
+              <tr key={p.Id}>
                 <td>{p.RealName}</td>
                 <td>{p.PlayerName}</td>
-                <td>{(p.Asset)}</td>
+                <td>{p.Asset}</td>
               </tr>
             ))}
         </tbody>
