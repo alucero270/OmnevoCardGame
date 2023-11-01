@@ -5,7 +5,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
-builder.Services.AddDbContext<PlayerContext>(p => p.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
+
+builder.Services.AddDbContext<PlayerContext>(options => options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
  
 var app = builder.Build();
@@ -24,7 +25,15 @@ app.UseCors(p => p.WithOrigins("http://localhost:3000")
 app.UseHttpsRedirection();
 
 app.MapGet("/players", (IPlayerRepository repo) => 
-    repo.GetAllPlayers());
+    repo.GetAllPlayers())
+        .Produces<PlayerDTO[]>(StatusCodes.Status200OK);
+
+app.MapGet("/players/{playerId:int}", async (int playerId, IPlayerRepository repo) => {
+    var player = await repo.GetDetails(playerId);
+    if (player == null)
+        return Results.Problem($"Player with ID {playerId} not found.",statusCode:404);
+    return Results.Ok(player);
+}).ProducesProblem(404).Produces<PlayerDetailDTO>(StatusCodes.Status200OK);
 
 app.Run();
 

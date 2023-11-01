@@ -6,7 +6,15 @@ function App() {
   return (
     <div className="container">
       < Header subtitle="Welcome"/>
-      < PlayerList />
+      <div className="">
+      {/* < DetailsCard /> */}
+      {/* < ControlsCard /> */}
+      </div>
+      <div className="">
+        < PlayerList />
+
+      </div>
+
     </div>
   );
 }

@@ -1,20 +1,13 @@
-import { useEffect, useState } from "react";
 import config from "../types/config";
+import { useQuery } from "react-query";
+import axios, { AxiosError } from "axios";
 import { Player } from "../types/player";
-const useFetchPlayers = ():Player[] => {
-    
-    const [players, setPlayers] = useState<Player[]>([]);
 
-    useEffect(() => {
-        const fetchPlayers = async () =>{
-            const rsp = await fetch(`${config.baseApiUrl}/players`);
-            const players = await rsp.json();
-            setPlayers(players);
-        } 
-        fetchPlayers();
-    }, []);
-
-    return players;
+const useFetchPlayers = () => {
+    return useQuery<Player[], AxiosError>("players", () => 
+    axios.get(`${config.baseApiUrl}/players`).then(
+        (resp) => resp.data)
+    );  
 
 }
 

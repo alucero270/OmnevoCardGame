@@ -2,7 +2,7 @@ import useFetchPlayers from "../hooks/PlayersHooks";
 import { Player } from "../types/player";
 
 const PlayerList = () => {
-    const players = useFetchPlayers();
+    const {data} = useFetchPlayers();
 
     return (
         <div>
@@ -21,7 +21,7 @@ const PlayerList = () => {
         </thead>
         <tbody>
           {
-            players.map((p: Player) => (
+            data && data.map((p: Player) => (
               <tr key={p.Id}>
                 <td>{p.RealName}</td>
                 <td>{p.PlayerName}</td>
