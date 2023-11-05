@@ -27,39 +27,41 @@ app.UseCors(p => p.WithOrigins("http://localhost:3000")
 
 app.UseHttpsRedirection();
 
-app.MapGet("/players", (IPlayerRepository repo) => 
-    repo.GetAllPlayers())
+app.MapGet("/players", (IPlayerRepository playerRepo) => 
+    playerRepo.GetAllPlayers())
         .Produces<PlayerDTO[]>(StatusCodes.Status200OK);
 
-app.MapGet("/players/{playerId:int}", async (int playerId, IPlayerRepository repo) => {
-    var player = await repo.GetDetails(playerId);
+app.MapGet("/players/{playerId:int}", async (int playerId, IPlayerRepository playerRepo) => {
+    var player = await playerRepo.GetDetails(playerId);
     if (player == null)
         return Results.Problem($"Player with ID {playerId} not found.",statusCode:404);
     return Results.Ok(player);
 }).ProducesProblem(404).Produces<PlayerDetailDTO>(StatusCodes.Status200OK);
 
-app.MapPost("/players/{playerId:int}", async ([FromBody] PlayerDTO dto, IPlayerRepository repo) => 
+app.MapPost("/players/{playerId:int}", async ([FromBody] PlayerDetailDTO dto, IPlayerRepository playerRepo) => 
 {
-    var newPlayer = repo.Add(dto);
+    var newPlayer = await playerRepo.Add(dto);
     return Results.Created($"/player/{newPlayer.Id}", newPlayer);
 }).Produces<PlayerDetailDTO>(StatusCodes.Status201Created);
 
-app.MapPut("/players", async ([FromBody] PlayerDetailDTO dto, IPlayerRepository repo) => 
+app.MapPut("/players", async ([FromBody] PlayerDetailDTO dto, IPlayerRepository playerRepo) => 
 {
-    if (await repo.GetDetails(dto.Id) == null)
+    if (await playerRepo.GetDetails(dto.Id) == null)
         return Results.Problem($"Player {dto.Id} not found", 
             statusCode: 404);
-        var updatedPlayer = await repo.Update(dto);
+        var updatedPlayer = await playerRepo.Update(dto);
             return Results.Ok(updatedPlayer);
 }).ProducesProblem(404).Produces<PlayerDetailDTO>(StatusCodes.Status200OK);
 
 app.MapDelete("/players/{playerId:int}", async (int playerId, 
-    IPlayerRepository repo) => 
+    IPlayerRepository playerRepo) => 
 {
-    if (await repo.GetDetails(playerId) == null)
+    if (await playerRepo.GetDetails(playerId) == null)
         return Results.Problem($"Player {playerId} not found", 
             statusCode: 404);
+    await playerRepo.Delete(playerId);
+    return Results.Ok();
+}).ProducesProblem(404).Produces(StatusCodes.Status200OK);
 
-});
 app.Run();
 

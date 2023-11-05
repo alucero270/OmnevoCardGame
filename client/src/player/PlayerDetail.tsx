@@ -3,9 +3,9 @@ import ApiStatus from "../ApiStatus";
 import { useFetchPlayer } from "../hooks/PlayersHooks";
 
 const PlayerDetail = () => {
-    const { id } = useParams();
-    if (!id) throw Error("Player not found");
-    const playerId = parseInt(id);
+    const { Id } = useParams();
+    if (!Id) throw Error("Player not found");
+    const playerId = parseInt(Id);
 
     const { data, status, isSuccess } = useFetchPlayer(playerId);
     if (!isSuccess) return <ApiStatus status={status} />
