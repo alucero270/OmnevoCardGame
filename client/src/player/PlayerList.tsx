@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import ApiStatus from "../ApiStatus";
 import useFetchPlayers from "../hooks/PlayersHooks";
 import { Player } from "../types/player";
-import PlayerCard from "../cards/PlayerCard";
+import PlayerCard from "../components/cards/PlayerCard";
 
 const PlayerList = () => {
   const nav = useNavigate();
@@ -27,7 +27,7 @@ const PlayerList = () => {
         <PlayerCard />
         <PlayerCard />
       </div>
-      <div>
+      {/* <div>
         <div className="row mb-2">
           <h5 className="themeFontColor text-center">
             Players currently in the game
@@ -53,7 +53,7 @@ const PlayerList = () => {
           </tbody>
         </table>
 
-      </div>
+      </div> */}
     </div>
   )
 };

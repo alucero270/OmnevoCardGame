@@ -3,8 +3,8 @@ import PlayerList from '../player/PlayerList';
 import './App.css';
 import Header from './Header';
 import PlayerDetail from '../player/PlayerDetail';
-import DetailsCard from '../cards/DetailsCard';
-import ControlsCard from '../cards/ControlsCard';
+import DetailsCard from '../components/cards/DetailsCard';
+import ControlsCard from '../components/cards/ControlsCard';
 
 function App() {
   return (
@@ -15,6 +15,7 @@ function App() {
           <DetailsCard />
           <ControlsCard />
         </div>
+        <PlayerList/>
         <Routes>
           <Route path="/" element={<PlayerList />}></Route>
           <Route path="/player/:id" element={<PlayerDetail />}></Route>
