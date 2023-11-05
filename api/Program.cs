@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -35,5 +38,28 @@ app.MapGet("/players/{playerId:int}", async (int playerId, IPlayerRepository rep
     return Results.Ok(player);
 }).ProducesProblem(404).Produces<PlayerDetailDTO>(StatusCodes.Status200OK);
 
+app.MapPost("/players/{playerId:int}", async ([FromBody] PlayerDTO dto, IPlayerRepository repo) => 
+{
+    var newPlayer = repo.Add(dto);
+    return Results.Created($"/player/{newPlayer.Id}", newPlayer);
+}).Produces<PlayerDetailDTO>(StatusCodes.Status201Created);
+
+app.MapPut("/players", async ([FromBody] PlayerDetailDTO dto, IPlayerRepository repo) => 
+{
+    if (await repo.GetDetails(dto.Id) == null)
+        return Results.Problem($"Player {dto.Id} not found", 
+            statusCode: 404);
+        var updatedPlayer = await repo.Update(dto);
+            return Results.Ok(updatedPlayer);
+}).ProducesProblem(404).Produces<PlayerDetailDTO>(StatusCodes.Status200OK);
+
+app.MapDelete("/players/{playerId:int}", async (int playerId, 
+    IPlayerRepository repo) => 
+{
+    if (await repo.GetDetails(playerId) == null)
+        return Results.Problem($"Player {playerId} not found", 
+            statusCode: 404);
+
+});
 app.Run();
 

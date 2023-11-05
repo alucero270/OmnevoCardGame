@@ -11,8 +11,8 @@ const DetailCard = () => {
     // if (!isSuccess) return <ApiStatus status={status} />
     // if (!data) return <div>Player Not found</div>
     return (
-        <div className="col-8">
-            <div className="card text-start mb-3" >
+        <div className="col-sm-8">
+            <div className="card text-start mb-3 h-100" >
                 <h3 className="card-header">Player Details</h3>
                 <div className="row">
                     <div className="col-md-4">

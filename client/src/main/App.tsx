@@ -11,7 +11,7 @@ function App() {
     <BrowserRouter>
       <div className="container">
         < Header subtitle="Welcome" />
-        <div className="row">
+        <div className="row w-100">
           <DetailsCard />
           <ControlsCard />
         </div>
