@@ -1,25 +1,29 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import PlayerList from '../player/PlayerList';
-import './App.css';
-import Header from './Header';
-import PlayerDetail from '../player/PlayerDetail';
-import DetailsCard from '../components/cards/DetailsCard';
-import ControlsCard from '../components/cards/ControlsCard';
+import { BrowserRouter } from "react-router-dom";
+import ControlsCard from "../components/cards/ControlsCard";
+import DetailsCard from "../components/cards/DetailsCard";
+import PlayerList from "../player/PlayerList";
+import Header from "./Header";
+import { useState } from "react";
+import { Player } from "../types/player";
+import PlayerDetail from "../player/PlayerDetail";
 
 function App() {
+  const [selectedPlayerId, setSelectedPlayerId] = useState<number | null>(null);
+
+  const handleSelectPlayer = (player: Player) => {
+    setSelectedPlayerId(player.Id);
+  };
+
   return (
     <BrowserRouter>
       <div className="container">
-        < Header subtitle="Welcome" />
+        <Header subtitle="Welcome" />
         <div className="row w-100">
-          <DetailsCard />
+          {selectedPlayerId && <DetailsCard playerId={selectedPlayerId} />}
+          <PlayerDetail />
           <ControlsCard />
         </div>
-        <PlayerList/>
-        <Routes>
-          <Route path="/" element={<PlayerList />}></Route>
-          <Route path="/player/:id" element={<PlayerDetail />}></Route>
-        </Routes>
+        <PlayerList onSelectPlayer={handleSelectPlayer} />
       </div>
     </BrowserRouter>
   );

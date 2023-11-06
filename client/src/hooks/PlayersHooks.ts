@@ -1,5 +1,5 @@
 import Config from "../config";
-import { QueryClient, useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { Player } from "../types/player";
 import { useNavigate } from "react-router-dom";
@@ -10,9 +10,12 @@ const useFetchPlayers = () => {
     //     (resp) => resp.data)
     // );  
     return useQuery<Player[], AxiosError>("players", () =>
-        axios.get(`${Config.baseApiUrl}/players`)
-            .then((resp) => resp.data)
-    );
+    axios.get(`${Config.baseApiUrl}/players`)
+        .then((resp) => {
+            console.log(resp.data);
+            return resp.data;
+        })
+)
 };
 
 const useFetchPlayer = (Id: number) => {

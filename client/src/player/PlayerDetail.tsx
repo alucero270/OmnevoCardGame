@@ -1,61 +1,40 @@
-import { Link, useParams } from "react-router-dom";
-import ApiStatus from "../ApiStatus";
-import { useFetchPlayer } from "../hooks/PlayersHooks";
 
 const PlayerDetail = () => {
-    const { Id } = useParams();
-    if (!Id) throw Error("Player not found");
-    const playerId = parseInt(Id);
-
-    const { data, status, isSuccess } = useFetchPlayer(playerId);
-    if (!isSuccess) return <ApiStatus status={status} />
-    if (!data) return <div>Player Not found</div>
     return (
-        <div className="row">
-            <div className="col-6">
+        <div className="col-sm-8">
+            <div className="card text-start mb-3 h-100" >
+                <h3 className="card-header">player.Id</h3>
                 <div className="row">
-                    <img
-                        className="img-fluid"
-                        // src={data.photo ? data.photo : defaultImage}
-                        alt="House pic"
-                    />
-                </div>
-                <div className="row mt-3">
-                    <div className="col-2">
-                        <Link
-                            className="btn btn-primary w-100"
-                            to={`/house/edit/${data.Id}`}
-                        >
-                            Edit
-                        </Link>
+                    <div className="col-md-4">
+                        <img
+                            src="https://images.pexels.com/photos/1149831/pexels-photo-1149831.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                            alt=""
+                            className="img-fluid rounded-start">
+                        </img>
                     </div>
-                    <div className="col-2">
-                        <button
-                            className="btn btn-danger w-100"
-                            // onClick={() => {
-                            //     if (window.confirm("Are you sure?"))
-                            //         deleteHouseMutation.mutate(data);
-                            // }}
-                        >
-                            Delete
-                        </button>
+                    <div className="col-md-8">
+                        <div className="card-body">
+                            <table className="table table-sm">
+                                <tbody>
+                                    <tr>
+                                        <th>Real Name</th>
+                                        <td>player.RealName</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Player Name</th>
+                                        <td>player.PlayerName</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Asset</th>
+                                        <td>player.Asset</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="col-6">
-                <div className="row mt-2">
-                    <h5 className="col-12">{data.RealName}</h5>
-                </div>
-                <div className="row">
-                    <h3 className="col-12">{data.PlayerName}</h3>
-                </div>
-                <div className="row">
-                    <div className="col-12 mt-3">{data.Asset}</div>
-                </div>
-                {/* <Bids house={data} /> */}
             </div>
         </div>
-    );
-};
-
+    )
+}
 export default PlayerDetail;
