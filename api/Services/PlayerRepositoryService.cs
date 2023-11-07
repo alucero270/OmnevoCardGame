@@ -1,7 +1,10 @@
 
+using Newtonsoft.Json;
+
 public class PlayerRepository : IPlayerRepository
 {
     private readonly PlayerContext context;
+
 
     public PlayerRepository(PlayerContext context)
     {
@@ -10,7 +13,7 @@ public class PlayerRepository : IPlayerRepository
 
     private static PlayerDetailDTO EntityToDto(Player e)
     {
-        return new PlayerDetailDTO( e.Id, e.RealName, e.PlayerName, e.Asset);
+        return new PlayerDetailDTO(e.Id, e.RealName, e.PlayerName, e.Asset);
     }
 
     private static void DtoToEntity(PlayerDetailDTO dto, Player e)
@@ -23,6 +26,42 @@ public class PlayerRepository : IPlayerRepository
 
     public async Task<List<PlayerDTO>> GetAllPlayers()
     {
+        // Read JSON data from the URL and update the database
+        var baseURL = "https://opensource.aoe.com/the-card-game-data/player.json";
+        var client = new HttpClient();
+        try
+        {
+            var httpResponseMessage = await client.GetAsync(baseURL);
+            if (httpResponseMessage.IsSuccessStatusCode)
+            {
+                string jsonResponse = await httpResponseMessage.Content.ReadAsStringAsync();
+                var playersFromUrl = JsonConvert.DeserializeObject<List<PlayerDetailDTO>>(jsonResponse);
+
+                // Remove existing players from the database
+                context.Players.RemoveRange(await context.Players.ToListAsync());
+
+                if (playersFromUrl != null)
+                {
+
+                    // Add players from the URL to the database
+                    foreach (var playerDto in playersFromUrl)
+                    {
+                        var entity = new Player();
+                        DtoToEntity(playerDto, entity);
+                        context.Players.Add(entity);
+                    }
+                }
+
+                await context.SaveChangesAsync();
+            }
+        }
+        catch (Exception e)
+        {
+            // Handle the exception (e.g., log it)
+            Console.WriteLine(e);
+        }
+
+        // Return all players from the database
         return await context.Players.Select(p => new PlayerDTO(p.Id, p.RealName, p.PlayerName, p.Asset)).ToListAsync();
     }
 
