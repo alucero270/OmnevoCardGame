@@ -18,6 +18,7 @@ const useFetchPlayers = () => {
 )
 };
 
+
 const useFetchPlayer = (Id: number) => {
     return useQuery<Player, AxiosError>(["players", Id], () =>
         axios.get(`${Config.baseApiUrl}/players/${Id}`)
