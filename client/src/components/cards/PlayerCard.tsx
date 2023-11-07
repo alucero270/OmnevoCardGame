@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Player } from "../../types/player";
-import DetailsCard from "./DetailsCard";
 
 type PlayerCardProps = {
   player: Player;
@@ -11,7 +10,7 @@ const PlayerCard = ({ player, onSelectPlayer }: PlayerCardProps) => {
   const [selectedPlayerId, setSelectedPlayerId] = useState<number | null>(null);
   const handleSelect = () => {
     onSelectPlayer(player); // Call the onSelectPlayer prop with the player object
-    setSelectedPlayerId(player.Id);
+    setSelectedPlayerId(player.id);
   };
 
   return (
@@ -25,24 +24,23 @@ const PlayerCard = ({ player, onSelectPlayer }: PlayerCardProps) => {
         <div className="card-body">
           <table className="table table-sm">
             <tbody>
-              <tr key={player.Id}>
+              <tr key={player.id}>
                 <th>Real Name</th>
-                <td>{player.RealName}</td>
+                <td>{player.realName}</td>
               </tr>
               <tr>
                 <th>Player Name</th>
-                <td>{player.PlayerName}</td>
+                <td>{player.playerName}</td>
               </tr>
               <tr>
                 <th>Asset</th>
-                <td>{player.Asset}</td>
+                <td>{player.asset}</td>
               </tr>
             </tbody>
           </table>
           <button className="btn btn-primary" onClick={handleSelect}>
             Select
           </button>
-          {selectedPlayerId && <DetailsCard playerId={selectedPlayerId} />}
         </div>
       </div>
     </div>

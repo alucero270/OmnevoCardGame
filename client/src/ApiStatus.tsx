@@ -7,7 +7,7 @@ const ApiStatus = ({status}: Args) => {
         case "success":
             return <div> Success</div>;
         case "error":
-            return <div> Error Communicating with the data backend</div>;
+            return <div> Error communicating with the data backend</div>;
         case "loading":
             return <div> Loading...</div>;
         default: throw Error("Unknown API State");

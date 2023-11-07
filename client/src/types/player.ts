@@ -1,6 +1,6 @@
 export type Player = {
-    Id: number;
-    RealName: string;
-    PlayerName: string;
-    Asset: string;
+    id: number;
+    realName: string;
+    playerName: string;
+    asset: string;
 }

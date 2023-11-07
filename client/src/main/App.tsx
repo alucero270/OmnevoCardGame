@@ -5,7 +5,6 @@ import PlayerList from "../player/PlayerList";
 import Header from "./Header";
 import { useState } from "react";
 import { Player } from "../types/player";
-import PlayerDetail from "../player/PlayerDetail";
 import axios from "axios";
 
 function App() {
@@ -24,7 +23,7 @@ function App() {
   };
 
   const handleSelectPlayer = (player: Player) => {
-    setSelectedPlayerId(player.Id);
+    setSelectedPlayerId(player.id);
   };
 
   return (
@@ -32,8 +31,14 @@ function App() {
       <div className="container">
         <Header subtitle="Welcome" />
         <div className="row w-100">
-          {selectedPlayerId && <DetailsCard playerId={selectedPlayerId} />}
-          <PlayerDetail />
+          <div className="col-8">
+          <div className="card text-start mb-3 h-100">
+      <h3 className="card-header">{selectedPlayerId || 'N/A'}</h3>
+      
+            <DetailsCard playerId={selectedPlayerId !== null ? selectedPlayerId : 0} />
+    </div>
+
+          </div>
           <ControlsCard onSubmit={handleSubmit} />
         </div>
         <PlayerList onSelectPlayer={handleSelectPlayer} />

@@ -1,7 +1,7 @@
 import ApiStatus from "../ApiStatus";
-import useFetchPlayers from "../hooks/PlayersHooks";
 import { Player } from "../types/player";
 import PlayerCard from "../components/cards/PlayerCard";
+import { useFetchPlayers } from "../hooks/PlayersHooks";
 
 type PlayerListProps = {
   onSelectPlayer: (player: Player) => void;
@@ -23,7 +23,7 @@ const PlayerList = ({ onSelectPlayer }: PlayerListProps) => {
       <div className="row mb-2">
 
       {data && data.map((p: Player) => (
-        <PlayerCard player={p} key={p.Id} onSelectPlayer={onSelectPlayer} />
+        <PlayerCard player={p} key={p.id} onSelectPlayer={onSelectPlayer} />
       ))}
 
       </div>

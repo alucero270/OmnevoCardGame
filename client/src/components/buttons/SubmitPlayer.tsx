@@ -20,9 +20,9 @@ const SubmitPlayerDetails = ({ player, submitted }: Args) => {
                     type="text"
                     className="form-control"
                     placeholder="RealName"
-                    value={playerState.RealName}
+                    value={playerState.realName}
                     onChange={(e) =>
-                        setPlayerState({ ...playerState, RealName: e.target.value })
+                        setPlayerState({ ...playerState, realName: e.target.value })
                     }
                 />
             </div>
@@ -32,9 +32,9 @@ const SubmitPlayerDetails = ({ player, submitted }: Args) => {
                     type="text"
                     className="form-control"
                     placeholder="PlayerName"
-                    value={playerState.PlayerName}
+                    value={playerState.playerName}
                     onChange={(e) =>
-                        setPlayerState({ ...playerState, PlayerName: e.target.value })
+                        setPlayerState({ ...playerState, playerName: e.target.value })
                     }
                 />
             </div>
@@ -43,15 +43,15 @@ const SubmitPlayerDetails = ({ player, submitted }: Args) => {
                 <textarea
                     className="form-control"
                     placeholder="Assets"
-                    value={playerState.Asset}
+                    value={playerState.asset}
                     onChange={(e) =>
-                        setPlayerState({ ...playerState, Asset: e.target.value })
+                        setPlayerState({ ...playerState, asset: e.target.value })
                     }
                 />
             </div>
             <button
                 className="btn btn-primary mt-2"
-                disabled={!playerState.RealName || !playerState.PlayerName || !playerState.Asset }
+                disabled={!playerState.realName || !playerState.playerName || !playerState.asset }
                 onClick={onSubmit}
             >
                 Submit
