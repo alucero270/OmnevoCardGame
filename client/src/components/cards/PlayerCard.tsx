@@ -14,33 +14,23 @@ const PlayerCard = ({ player, onSelectPlayer }: PlayerCardProps) => {
   };
 
   return (
-    <div className="col-md-4">
-      <div className="card text-start mb-3 h-100">
-        <img
-          src="https://images.pexels.com/photos/1149831/pexels-photo-1149831.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-          alt=""
-          className="card-img-top"
-        />
-        <div className="card-body">
-          <table className="table table-sm ">
-            <tbody>
-              <tr key={player.id}>
-                <th >Real Name</th>
-                <td>{player.realName}</td>
-              </tr>
-              <tr>
-                <th>Player Name</th>
-                <td>{player.playerName}</td>
-              </tr>
-              <tr>
-                <th>Asset</th>
-                <td>{player.asset}</td>
-              </tr>
-            </tbody>
-          </table>
-          <button className="btn btn-primary" onClick={handleSelect}>
-            Select
-          </button>
+    <div className="col-md-4 mb-3 align-self-center text-nowrap">
+      <div className="card h-100 w-100 text-truncate">
+        <h5 className="card-header text-center mb-2">
+          {player.realName}
+        </h5>
+        <div className="card-body ">
+          <div className="col ">
+            <h6 >Player Name:</h6>
+            <p className="text-truncate">{player.playerName}</p>
+            <h6 >Asset:</h6>
+            <p className="text-truncate">{player.asset}</p>
+          </div>
+          <div className="card-row text-center">
+            <button className="btn btn-primary w-100" onClick={handleSelect}>
+              Select
+            </button>
+          </div>
         </div>
       </div>
     </div>
