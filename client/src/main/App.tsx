@@ -2,10 +2,8 @@ import { BrowserRouter } from "react-router-dom";
 import ControlsCard from "../components/cards/ControlsCard";
 import DetailsCard from "../components/cards/DetailsCard";
 import PlayerList from "../player/PlayerList";
-import Header from "./Header";
 import { useState } from "react";
 import { Player } from "../types/player";
-import PlayerDetail from "../player/PlayerDetail";
 import axios from "axios";
 
 function App() {
@@ -36,10 +34,9 @@ function App() {
   return (
     <BrowserRouter>
       <div className="container">
-        <Header subtitle="Welcome" />
-        <div className="row w-100">
-          <div className="col-8 ">
-            <div className="card  h-100">
+        <div className="row mt-5">
+          <div className="col-sm-8 ">
+            <div className="card h-100 w-100 align-items-center">
               <DetailsCard playerId={selectedPlayerId !== null ? selectedPlayerId : 0} />
             </div>
           </div>
