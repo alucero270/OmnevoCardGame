@@ -5,11 +5,11 @@ import { useFetchPlayers } from "../hooks/PlayersHooks";
 
 type PlayerListProps = {
   onSelectPlayer: (player: Player) => void;
+  sortOrder: string;
 };
 
-const PlayerList = ({ onSelectPlayer }: PlayerListProps) => {
- 
-  const { data, status, isSuccess } = useFetchPlayers();
+const PlayerList = ({ onSelectPlayer, sortOrder }: PlayerListProps) => {
+  const { data, status, isSuccess } = useFetchPlayers(sortOrder);
   if (!isSuccess) return <ApiStatus status={status}></ApiStatus>;
 
   return (

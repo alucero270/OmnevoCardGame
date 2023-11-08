@@ -21,11 +21,22 @@ public class PlayerRepository : IPlayerRepository
         e.Asset = dto.Asset;
     }
 
-    public async Task<List<PlayerDTO>> GetAllPlayers()
+public async Task<List<PlayerDTO>> GetAllPlayers(string sortOrder)
+{
+    switch (sortOrder)
     {
-        return await context.Players.Select(p => new PlayerDTO(p.Id, p.RealName, p.PlayerName, p.Asset)).ToListAsync();
+        case "desc":
+            return await context.Players
+                .OrderByDescending(p => p.RealName)
+                .Select(p => new PlayerDTO(p.Id, p.RealName, p.PlayerName, p.Asset))
+                .ToListAsync();
+        default:
+            return await context.Players
+                .OrderBy(p => p.RealName)
+                .Select(p => new PlayerDTO(p.Id, p.RealName, p.PlayerName, p.Asset))
+                .ToListAsync();
     }
-
+}
     public async Task<PlayerDetailDTO?> GetDetails(int id)
     {
         var e = await context.Players.SingleOrDefaultAsync(

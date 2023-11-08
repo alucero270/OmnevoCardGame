@@ -15,17 +15,17 @@ const PlayerCard = ({ player, onSelectPlayer }: PlayerCardProps) => {
 
   return (
     <div className="col-md-4">
-      <div className="card text-start mb-3">
+      <div className="card text-start mb-3 h-100">
         <img
           src="https://images.pexels.com/photos/1149831/pexels-photo-1149831.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
           alt=""
           className="card-img-top"
         />
         <div className="card-body">
-          <table className="table table-sm">
+          <table className="table table-sm ">
             <tbody>
               <tr key={player.id}>
-                <th>Real Name</th>
+                <th >Real Name</th>
                 <td>{player.realName}</td>
               </tr>
               <tr>

@@ -27,9 +27,10 @@ app.UseCors(p => p.WithOrigins("http://localhost:3000")
 
 app.UseHttpsRedirection();
 
-app.MapGet("/players", (IPlayerRepository playerRepo) =>
-    playerRepo.GetAllPlayers())
+app.MapGet("/players", (IPlayerRepository playerRepo, string sortOrder) =>
+    playerRepo.GetAllPlayers(sortOrder))
         .Produces<PlayerDTO[]>(StatusCodes.Status200OK);
+
 
 app.MapGet("/players/{playerId:int}", async (int playerId, IPlayerRepository playerRepo) =>
 {

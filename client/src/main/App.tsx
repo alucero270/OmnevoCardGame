@@ -5,6 +5,7 @@ import PlayerList from "../player/PlayerList";
 import Header from "./Header";
 import { useState } from "react";
 import { Player } from "../types/player";
+import PlayerDetail from "../player/PlayerDetail";
 import axios from "axios";
 
 function App() {
@@ -26,22 +27,29 @@ function App() {
     setSelectedPlayerId(player.id);
   };
 
+  const [sortOrder, setSortOrder] = useState('asc');
+
+  const handleSortOrderChange = (newSortOrder: string) => {
+    setSortOrder(newSortOrder);
+  };
+
   return (
     <BrowserRouter>
       <div className="container">
         <Header subtitle="Welcome" />
         <div className="row w-100">
-          <div className="col-8">
-          <div className="card text-start mb-3 h-100">
-      <h3 className="card-header">{selectedPlayerId || 'N/A'}</h3>
-      
-            <DetailsCard playerId={selectedPlayerId !== null ? selectedPlayerId : 0} />
-    </div>
-
+          <div className="col-8 ">
+            <div className="card  h-100">
+              <DetailsCard playerId={selectedPlayerId !== null ? selectedPlayerId : 0} />
+            </div>
           </div>
-          <ControlsCard onSubmit={handleSubmit} />
+          <ControlsCard
+            onSubmit={handleSubmit}
+            onSortAscending={() => handleSortOrderChange('asc')}
+            onSortDescending={() => handleSortOrderChange('desc')}
+          />
         </div>
-        <PlayerList onSelectPlayer={handleSelectPlayer} />
+        <PlayerList onSelectPlayer={handleSelectPlayer} sortOrder={sortOrder} />
       </div>
     </BrowserRouter>
   );
