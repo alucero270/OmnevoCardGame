@@ -7,7 +7,7 @@ type DetailsCardProps = {
 };
 
 const DetailsCard = ({ playerId }: DetailsCardProps) => {
-  const { data, status, isSuccess } = useFetchPlayer(playerId);
+  const { data, isSuccess } = useFetchPlayer(playerId);
 
   useEffect(() => {
     if (playerId) {
@@ -15,7 +15,7 @@ const DetailsCard = ({ playerId }: DetailsCardProps) => {
     }
   }, [playerId]);
 
-  if (!isSuccess) return <ApiStatus status={status} />;
+  if (!isSuccess) return <ApiStatus status={"loading"} />;
 
   const player = data || {}; // Assign the fetched player data to a variable or an empty object if data is null
 
