@@ -1,46 +1,91 @@
-# Getting Started with Create React App
+to run this application: 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+FrontEnd
 
-## Available Scripts
+Clone the Repository:
+Open a terminal or command prompt.
+Navigate to the directory where you want to clone the repository.
+Run the following command to clone the repository:
+     git clone <repository-url>
+     ```
+Install Dependencies:
+Navigate to the cloned repository's directory.
+Run the following command to navigate to the frontend directory:
+     cd OmnevoCardGame\client
+     ```
+Run the following command to install the required dependencies:
+     npm install
+     ```
+Configure Backend URL:
+Open the src/config.js file in the frontend directory.
+Update the API_BASE_URL constant to the URL where your backend is running. By default, it is set to http://localhost:5000.
+Save the changes.
+Run the Application:
+Run the following command to start the frontend application:
+     npm start
+     ```
+The application will start and open in your default web browser at http://localhost:3000.
 
-In the project directory, you can run:
+Test the Application:
+Interact with the frontend application in your web browser.
+Use the provided user interface to perform actions and communicate with the backend API.
+That's it! You have successfully set up and started the React frontend application. You can now use the application to interact with the backend API and test its functionality.
 
-### `npm start`
+Please note that this guide assumes you have the necessary prerequisites installed, such as Node.js and npm. If you encounter any issues during the setup process, make sure to check the documentation or troubleshooting guides specific to your operating system and development environment.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+______________________________
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Backend:
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Clone the Repository:
+   - Open a terminal or command prompt.
+   - Navigate to the directory where you want to clone the repository.
+   - Run the following command to clone the repository:
 
-### `npm run build`
+     ```
+     git clone <repository-url>
+     ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. Install Dependencies:
+   - Navigate to the cloned repository's directory : \OmnevoCardGame\client
+   - Run the following command to install the required dependencies:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+     ```
+     dotnet restore
+     ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. Set up the Database:
+   - Open the `appsettings.json` file in the project's root directory.
+   - Update the connection string in the `DefaultConnection` section to point to your SQLite database file. By default, it uses the `app.db` file in the project's root directory.
+   - Save the changes.
 
-### `npm run eject`
+4. Apply Migrations:
+   - Open a terminal or command prompt.
+   - Navigate to the project's root directory.
+   - Run the following command to apply the database migrations:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+     ```
+     dotnet ef database update
+     ```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+   This command will create the necessary tables in your SQLite database.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+5. Run the Application:
+   - Run the following command to start the backend application:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+     ```
+     dotnet run
+     ```
 
-## Learn More
+   The application will start and listen for incoming requests on the specified port (usually `https://localhost:5001`).
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+6. Test the Application:
+   - Open a web browser or use an API testing tool (e.g., Postman).
+   - Send HTTP requests to the running backend application to test its functionality.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+That's it! You have successfully set up and started the backend application. You can now interact with the API endpoints and test the functionality.
+
+Please note that this guide assumes you have the necessary prerequisites installed, such as .NET Core SDK and SQLite. If you encounter any issues during the setup process, make sure to check the documentation or troubleshooting guides specific to your operating system and development environment.
+
+

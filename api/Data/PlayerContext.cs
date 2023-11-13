@@ -6,11 +6,13 @@ public class PlayerContext : DbContext
 
   public DbSet<Player> Players => Set<Player>();
 
+
+
   protected override void OnConfiguring(DbContextOptionsBuilder options)
   {
     var folder = Environment.SpecialFolder.LocalApplicationData;
     var path = Environment.GetFolderPath(folder);
-      options.UseSqlite($"Data Source={Path.Join(path, "Players.db")}");
+    options.UseSqlite($"Data Source={Path.Join(path, "Players.db")}");
   }
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)

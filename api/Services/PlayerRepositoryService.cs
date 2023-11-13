@@ -1,7 +1,10 @@
 
+using Newtonsoft.Json;
+
 public class PlayerRepository : IPlayerRepository
 {
     private readonly PlayerContext context;
+
 
     public PlayerRepository(PlayerContext context)
     {
@@ -10,7 +13,7 @@ public class PlayerRepository : IPlayerRepository
 
     private static PlayerDetailDTO EntityToDto(Player e)
     {
-        return new PlayerDetailDTO( e.Id, e.RealName, e.PlayerName, e.Asset);
+        return new PlayerDetailDTO(e.Id, e.RealName, e.PlayerName, e.Asset);
     }
 
     private static void DtoToEntity(PlayerDetailDTO dto, Player e)
@@ -21,22 +24,36 @@ public class PlayerRepository : IPlayerRepository
         e.Asset = dto.Asset;
     }
 
-public async Task<List<PlayerDTO>> GetAllPlayers(string sortOrder)
-{
-    switch (sortOrder)
+    public async Task<List<PlayerDTO>> GetAllPlayers(string sortOrder)
     {
-        case "desc":
-            return await context.Players
-                .OrderByDescending(p => p.RealName)
-                .Select(p => new PlayerDTO(p.Id, p.RealName, p.PlayerName, p.Asset))
-                .ToListAsync();
-        default:
-            return await context.Players
-                .OrderBy(p => p.RealName)
-                .Select(p => new PlayerDTO(p.Id, p.RealName, p.PlayerName, p.Asset))
-                .ToListAsync();
+        string url = "https://opensource.aoe.com/the-card-game-data/player.json";
+        HttpClient httpClient = new HttpClient();
+
+        var httpResponseMessage = await httpClient.GetAsync(url);
+        var jsonResponse = await httpResponseMessage.Content.ReadAsStringAsync();
+
+        var importedPlayersList = JsonConvert.DeserializeObject<Player[]>(jsonResponse);
+
+        foreach (var importedPlayer in importedPlayersList)
+        {
+            context.Players.Add(importedPlayer);
+        }
+
+        switch (sortOrder)
+        {
+            case "desc":
+                return await context.Players
+                    .OrderByDescending(p => p.RealName)
+                    .Select(p => new PlayerDTO(p.Id, p.RealName, p.PlayerName, p.Asset))
+                    .ToListAsync();
+            default:
+                return await context.Players
+                    .OrderBy(p => p.RealName)
+                    .Select(p => new PlayerDTO(p.Id, p.RealName, p.PlayerName, p.Asset))
+                    .ToListAsync();
+        }
     }
-}
+
     public async Task<PlayerDetailDTO?> GetDetails(int id)
     {
         var e = await context.Players.SingleOrDefaultAsync(
