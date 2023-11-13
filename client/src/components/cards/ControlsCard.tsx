@@ -1,10 +1,26 @@
+import { useState } from "react";
+import { Player } from "../../types/player";
+import { isNullishCoalesce } from "typescript";
+import { useUpdatePlayer } from "../../hooks/PlayersHooks";
+
 type ControlsCardProps = {
-    onSubmit: () => void;
+    playerData?: Player | null;
     onSortAscending: () => void;
     onSortDescending: () => void;
 };
 
-const ControlsCard = ({ onSubmit, onSortAscending, onSortDescending }: ControlsCardProps) => {
+const ControlsCard = ({ playerData, onSortAscending, onSortDescending }: ControlsCardProps) => {
+    
+    const updatePlayerMutation = useUpdatePlayer();
+
+    const onSubmit = () => {
+        if (playerData) {
+          console.log(playerData);
+        updatePlayerMutation.mutate(playerData);
+        }
+      };
+      
+
     return (
         <div className="col-sm-4">
                         <div className="card h-100 w-100 align-items-center">

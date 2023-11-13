@@ -1,7 +1,8 @@
 import Config from "../config";
-import { useQuery } from "react-query";
-import axios, { AxiosError } from "axios";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { Player } from "../types/player";
+import { useNavigate } from "react-router-dom";
 
 const useFetchPlayers = (sortOrder: string) => {
     return useQuery<Player[], AxiosError>(["players", sortOrder], () =>
@@ -20,7 +21,17 @@ const useFetchPlayer = (Id: number) => {
     );
 };
 
+const useUpdatePlayer = () => {
+    const queryClient = useQueryClient();
+    return useMutation<AxiosResponse, AxiosError, Player>(
+        (p) => axios.put(`${Config.baseApiUrl}/players`, p),
+        {
+            onSuccess: (_, player) => {
+                queryClient.invalidateQueries("players");
+            }
+        }
+    )
+}
 
 
-
-export { useFetchPlayers, useFetchPlayer }
+export { useFetchPlayers, useFetchPlayer, useUpdatePlayer }

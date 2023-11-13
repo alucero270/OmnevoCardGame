@@ -7,7 +7,7 @@ type PlayerCardProps = {
 };
 
 const PlayerCard = ({ player, onSelectPlayer }: PlayerCardProps) => {
-  const [selectedPlayerId, setSelectedPlayerId] = useState<number | null>(null);
+  const [selectedPlayerId, setSelectedPlayerId] = useState<number>(player.id ?? {id:0});
   const handleSelect = () => {
     onSelectPlayer(player); // Call the onSelectPlayer prop with the player object
     setSelectedPlayerId(player.id);

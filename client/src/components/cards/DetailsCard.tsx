@@ -1,23 +1,25 @@
 import { useEffect } from "react";
 import ApiStatus from "../../ApiStatus";
 import { useFetchPlayer } from "../../hooks/PlayersHooks";
+import { Player } from "../../types/player";
 
 type DetailsCardProps = {
   playerId: number;
+  setPlayerData: React.Dispatch<React.SetStateAction<Player | null>>;
 };
 
-const DetailsCard = ({ playerId }: DetailsCardProps) => {
+const DetailsCard = ({ playerId, setPlayerData }: DetailsCardProps) => {
   const { data, isSuccess } = useFetchPlayer(playerId);
 
   useEffect(() => {
-    if (playerId) {
-      console.log(`Fetching player with ID: ${playerId}`);
+    if (data) {
+      setPlayerData(data);
     }
-  }, [playerId]);
-
+  }, [data, setPlayerData]);
+  
   if (!isSuccess) return <ApiStatus status={"loading"} />;
-
   const player = data || {}; // Assign the fetched player data to a variable or an empty object if data is null
+
 
   return (
     <div className="row w-100 g-0">
