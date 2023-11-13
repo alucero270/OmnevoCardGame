@@ -7,11 +7,12 @@ type PlayerCardProps = {
 };
 
 const PlayerCard = ({ player, onSelectPlayer }: PlayerCardProps) => {
-  const [selectedPlayerId, setSelectedPlayerId] = useState<number | null>(null);
+  const [playerState, setPlayerState] = useState<Player | null>(null);
   const handleSelect = () => {
-    onSelectPlayer(player); // Call the onSelectPlayer prop with the player object
-    setSelectedPlayerId(player.id);
-  };
+    setPlayerState(player);
+    onSelectPlayer(player);
+   };
+   
 
   return (
     <div className="col-md-4 mb-3 align-self-center text-nowrap">

@@ -1,48 +1,79 @@
+import { useState } from "react";
+import { Player } from "../../types/player";
+
 type ControlsCardProps = {
-    onSubmit: () => void;
-    onSortAscending: () => void;
-    onSortDescending: () => void;
+  player?: Player | null;
+  onSubmit: (player: Player) => void;
+  onSortAscending: () => void;
+  onSortDescending: () => void;
 };
 
-const ControlsCard = ({ onSubmit, onSortAscending, onSortDescending }: ControlsCardProps) => {
-    return (
-        <div className="col-sm-4">
-                        <div className="card h-100 w-100 align-items-center">
-                <div className="row g-0">
-                    <h3 className="card-header text-center">Control Panel</h3>
-                    <div className="card-body justify-content-center">
-                        <div className="d-grid gap-2">
-                            <div className="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                <input type="radio"
-                                    className="btn-check"
-                                    name="btnradio"
-                                    id="btnradio1"
-                                    autoComplete="off"
-                                    checked />
-                                <label
-                                    className="btn btn-outline-primary"
-                                    htmlFor="btnradio1"
-                                    onClick={onSortAscending}>
-                                    Sort Ascending</label>
+const ControlsCard = ({
+  player,
+  onSubmit,
+  onSortAscending,
+  onSortDescending
+}: ControlsCardProps) => {
+    const [playerState, setPlayerState] = useState<Player>(player ?? { id: 0, realName: '', playerName: '', asset: '' });
 
-                                <input type="radio"
-                                    className="btn-check"
-                                    name="btnradio"
-                                    id="btnradio2"
-                                    autoComplete="off" />
-                                <label className="btn btn-outline-primary"
-                                    htmlFor="btnradio2"
-                                    onClick={onSortDescending}>
-                                    Sort Descending</label>
-                            </div>
-                            <button className="btn btn-primary btn-block" onClick={onSubmit}>
-                                Submit
-                            </button>
-                        </div>
-                    </div>
-                </div>
+
+  const handleSubmit: React.MouseEventHandler<HTMLButtonElement> = async (e) => {
+    e.preventDefault();
+    onSubmit(playerState);
+  };
+
+  return (
+    <div className="col-sm-4">
+      <div className="card h-100 w-100 align-items-center">
+        <div className="row g-0">
+          <h3 className="card-header text-center">Control Panel</h3>
+          <div className="card-body justify-content-center">
+            <div className="d-grid gap-2">
+              <div
+                className="btn-group"
+                role="group"
+                aria-label="Basic radio toggle button group"
+              >
+                <input
+                  type="radio"
+                  className="btn-check"
+                  name="btnradio"
+                  id="btnradio1"
+                  autoComplete="off"
+                  defaultChecked
+                />
+                <label
+                  className="btn btn-outline-primary"
+                  htmlFor="btnradio1"
+                  onClick={onSortAscending}
+                >
+                  Sort Ascending
+                </label>
+
+                <input
+                  type="radio"
+                  className="btn-check"
+                  name="btnradio"
+                  id="btnradio2"
+                  autoComplete="off"
+                />
+                <label
+                  className="btn btn-outline-primary"
+                  htmlFor="btnradio2"
+                  onClick={onSortDescending}
+                >
+                  Sort Descending
+                </label>
+              </div>
+              <button className="btn btn-primary btn-block" onClick={handleSubmit}>
+                Submit
+              </button>
             </div>
+          </div>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
+
 export default ControlsCard;

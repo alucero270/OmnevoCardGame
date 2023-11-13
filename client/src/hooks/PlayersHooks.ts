@@ -1,6 +1,6 @@
 import Config from "../config";
-import { useQuery } from "react-query";
-import axios, { AxiosError } from "axios";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { Player } from "../types/player";
 
 const useFetchPlayers = (sortOrder: string) => {
@@ -13,14 +13,26 @@ const useFetchPlayers = (sortOrder: string) => {
 
 
 
-const useFetchPlayer = (Id: number) => {
+const useFetchPlayer = (Id: Player | null) => {
     return useQuery<Player, AxiosError>(["players", Id], () =>
         axios.get(`${Config.baseApiUrl}/players/${Id}`)
             .then((resp) => resp.data)
     );
 };
 
+const useUpdatePlayer = (Player: Player | null) => {
+    const queryClient = useQueryClient();
+  
+    return useMutation<AxiosResponse, AxiosError, number>(
+      (id) => axios.put(`${Config.baseApiUrl}/players/${id}`),
+      {
+        onSuccess: (_, id) => {
+          queryClient.invalidateQueries("players");
+        },
+      }
+    );
+  };
 
 
 
-export { useFetchPlayers, useFetchPlayer }
+export { useFetchPlayers, useFetchPlayer, useUpdatePlayer }

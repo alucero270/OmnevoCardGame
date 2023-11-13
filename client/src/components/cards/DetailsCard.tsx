@@ -1,19 +1,22 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ApiStatus from "../../ApiStatus";
 import { useFetchPlayer } from "../../hooks/PlayersHooks";
+import { Player } from "../../types/player";
 
 type DetailsCardProps = {
-  playerId: number;
+  selectedPlayer: Player | null;
 };
 
-const DetailsCard = ({ playerId }: DetailsCardProps) => {
-  const { data, isSuccess } = useFetchPlayer(playerId);
+const DetailsCard = ({ selectedPlayer }: DetailsCardProps) => {
+  const { data, isSuccess } = useFetchPlayer(selectedPlayer ?? { id: 0, realName: '', playerName: '', asset: '' });
+  const [playerState, setPlayerState] = useState<Player>(selectedPlayer ?? { id: 0, realName: '', playerName: '', asset: '' });
+
 
   useEffect(() => {
-    if (playerId) {
-      console.log(`Fetching player with ID: ${playerId}`);
+    if (selectedPlayer) {
+      console.log(`Fetching player with ID: ${selectedPlayer.id}`);
     }
-  }, [playerId]);
+  }, [selectedPlayer]);
 
   if (!isSuccess) return <ApiStatus status={"loading"} />;
 

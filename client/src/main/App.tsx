@@ -4,26 +4,24 @@ import DetailsCard from "../components/cards/DetailsCard";
 import PlayerList from "../player/PlayerList";
 import { useState } from "react";
 import { Player } from "../types/player";
-import axios from "axios";
+import { useUpdatePlayer } from "../hooks/PlayersHooks";
+
 
 function App() {
-  const [selectedPlayerId, setSelectedPlayerId] = useState<number | null>(null);
+  // const [selectedPlayerId, setSelectedPlayerId] = useState<number | null>(null);
+  const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
+
+  const updatePlayerMutation = useUpdatePlayer(selectedPlayer);
 
   const handleSubmit = () => {
-    if (selectedPlayerId) {
-      axios.post('https://localhost:4000', selectedPlayerId)
-        .then(response => {
-          console.log(response.data);
-        })
-        .catch(error => {
-          console.error('There was an error!', error);
-        });
+    if (selectedPlayer) {
+      updatePlayerMutation.mutate(selectedPlayer.id);
     }
   };
-
   const handleSelectPlayer = (player: Player) => {
-    setSelectedPlayerId(player.id);
+    setSelectedPlayer(player);
   };
+
 
   const [sortOrder, setSortOrder] = useState('asc');
 
@@ -37,14 +35,16 @@ function App() {
         <div className="row mt-5">
           <div className="col-sm-8 ">
             <div className="card h-100 w-100 align-items-center">
-              <DetailsCard playerId={selectedPlayerId !== null ? selectedPlayerId : 0} />
+              <DetailsCard selectedPlayer={selectedPlayer} />
             </div>
           </div>
           <ControlsCard
             onSubmit={handleSubmit}
             onSortAscending={() => handleSortOrderChange('asc')}
             onSortDescending={() => handleSortOrderChange('desc')}
+            player={selectedPlayer}
           />
+
         </div>
         <PlayerList onSelectPlayer={handleSelectPlayer} sortOrder={sortOrder} />
       </div>
