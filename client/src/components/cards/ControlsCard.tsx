@@ -7,22 +7,34 @@ type ControlsCardProps = {
 const ControlsCard = ({ onSubmit, onSortAscending, onSortDescending }: ControlsCardProps) => {
     return (
         <div className="col-sm-4">
-            <div className="card text-center mb-4 h-100">
-                <h3 className="card-header">Control Panel</h3>
-                <div className="card-body">
-                    <div className="card-row w-100">
-                        <div className="col mt-3">
-                        <div className="btn-group">
-                            <button className="btn btn-primary" onClick={onSortAscending}>
-                                Sort Ascending
-                            </button>
-                            <button className="btn btn-primary" onClick={onSortDescending}>
-                                Sort Descending
-                            </button>
-                        </div>
+                        <div className="card h-100 w-100 align-items-center">
+                <div className="row g-0">
+                    <h3 className="card-header text-center">Control Panel</h3>
+                    <div className="card-body justify-content-center">
+                        <div className="d-grid gap-2">
+                            <div className="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                <input type="radio"
+                                    className="btn-check"
+                                    name="btnradio"
+                                    id="btnradio1"
+                                    autoComplete="off"
+                                    checked />
+                                <label
+                                    className="btn btn-outline-primary"
+                                    htmlFor="btnradio1"
+                                    onClick={onSortAscending}>
+                                    Sort Ascending</label>
 
-                        </div>
-                        <div className="card-row mt-3">
+                                <input type="radio"
+                                    className="btn-check"
+                                    name="btnradio"
+                                    id="btnradio2"
+                                    autoComplete="off" />
+                                <label className="btn btn-outline-primary"
+                                    htmlFor="btnradio2"
+                                    onClick={onSortDescending}>
+                                    Sort Descending</label>
+                            </div>
                             <button className="btn btn-primary btn-block" onClick={onSubmit}>
                                 Submit
                             </button>
