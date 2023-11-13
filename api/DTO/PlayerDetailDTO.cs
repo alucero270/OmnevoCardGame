@@ -1,1 +1,6 @@
-public record PlayerDetailDTO(int Id, string? RealName, string? PlayerName, string? Asset);
+public record PlayerDetailDTO(
+    int Id,
+    string? RealName,
+    string? PlayerName,
+    string? Asset
+    );

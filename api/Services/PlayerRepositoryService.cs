@@ -24,62 +24,36 @@ public class PlayerRepository : IPlayerRepository
         e.Asset = dto.Asset;
     }
 
-public async Task<List<PlayerDTO>> GetAllPlayers(string sortOrder)
-{
-    switch (sortOrder)
+    public async Task<List<PlayerDTO>> GetAllPlayers(string sortOrder)
     {
-<<<<<<< HEAD
-        // Read JSON data from the URL and update the database
-        var baseURL = "https://opensource.aoe.com/the-card-game-data/player.json";
-        var client = new HttpClient();
-        try
+        string url = "https://opensource.aoe.com/the-card-game-data/player.json";
+        HttpClient httpClient = new HttpClient();
+
+        var httpResponseMessage = await httpClient.GetAsync(url);
+        var jsonResponse = await httpResponseMessage.Content.ReadAsStringAsync();
+
+        var importedPlayersList = JsonConvert.DeserializeObject<Player[]>(jsonResponse);
+
+        foreach (var importedPlayer in importedPlayersList)
         {
-            var httpResponseMessage = await client.GetAsync(baseURL);
-            if (httpResponseMessage.IsSuccessStatusCode)
-            {
-                string jsonResponse = await httpResponseMessage.Content.ReadAsStringAsync();
-                var playersFromUrl = JsonConvert.DeserializeObject<List<PlayerDetailDTO>>(jsonResponse);
-
-                // Remove existing players from the database
-                context.Players.RemoveRange(await context.Players.ToListAsync());
-
-                if (playersFromUrl != null)
-                {
-
-                    // Add players from the URL to the database
-                    foreach (var playerDto in playersFromUrl)
-                    {
-                        var entity = new Player();
-                        DtoToEntity(playerDto, entity);
-                        context.Players.Add(entity);
-                    }
-                }
-
-                await context.SaveChangesAsync();
-            }
-        }
-        catch (Exception e)
-        {
-            // Handle the exception (e.g., log it)
-            Console.WriteLine(e);
+            context.Players.Add(importedPlayer);
         }
 
-        // Return all players from the database
-        return await context.Players.Select(p => new PlayerDTO(p.Id, p.RealName, p.PlayerName, p.Asset)).ToListAsync();
-=======
-        case "desc":
-            return await context.Players
-                .OrderByDescending(p => p.RealName)
-                .Select(p => new PlayerDTO(p.Id, p.RealName, p.PlayerName, p.Asset))
-                .ToListAsync();
-        default:
-            return await context.Players
-                .OrderBy(p => p.RealName)
-                .Select(p => new PlayerDTO(p.Id, p.RealName, p.PlayerName, p.Asset))
-                .ToListAsync();
->>>>>>> main
+        switch (sortOrder)
+        {
+            case "desc":
+                return await context.Players
+                    .OrderByDescending(p => p.RealName)
+                    .Select(p => new PlayerDTO(p.Id, p.RealName, p.PlayerName, p.Asset))
+                    .ToListAsync();
+            default:
+                return await context.Players
+                    .OrderBy(p => p.RealName)
+                    .Select(p => new PlayerDTO(p.Id, p.RealName, p.PlayerName, p.Asset))
+                    .ToListAsync();
+        }
     }
-}
+
     public async Task<PlayerDetailDTO?> GetDetails(int id)
     {
         var e = await context.Players.SingleOrDefaultAsync(
