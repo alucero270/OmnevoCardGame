@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Player } from "../../types/player";
-import DetailsCard from "./DetailsCard";
 
 type PlayerCardProps = {
   player: Player;
@@ -8,41 +7,30 @@ type PlayerCardProps = {
 };
 
 const PlayerCard = ({ player, onSelectPlayer }: PlayerCardProps) => {
-  const [selectedPlayerId, setSelectedPlayerId] = useState<number | null>(null);
+  const [selectedPlayerId, setSelectedPlayerId] = useState<number>(player.id ?? {id:0});
   const handleSelect = () => {
     onSelectPlayer(player); // Call the onSelectPlayer prop with the player object
-    setSelectedPlayerId(player.Id);
+    setSelectedPlayerId(player.id);
   };
 
   return (
-    <div className="col-md-4">
-      <div className="card text-start mb-3">
-        <img
-          src="https://images.pexels.com/photos/1149831/pexels-photo-1149831.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-          alt=""
-          className="card-img-top"
-        />
-        <div className="card-body">
-          <table className="table table-sm">
-            <tbody>
-              <tr key={player.Id}>
-                <th>Real Name</th>
-                <td>{player.RealName}</td>
-              </tr>
-              <tr>
-                <th>Player Name</th>
-                <td>{player.PlayerName}</td>
-              </tr>
-              <tr>
-                <th>Asset</th>
-                <td>{player.Asset}</td>
-              </tr>
-            </tbody>
-          </table>
-          <button className="btn btn-primary" onClick={handleSelect}>
-            Select
-          </button>
-          {selectedPlayerId && <DetailsCard playerId={selectedPlayerId} />}
+    <div className="col-md-4 mb-3 align-self-center text-nowrap">
+      <div className="card h-100 w-100 text-truncate">
+        <h5 className="card-header text-center mb-2">
+          {player.realName}
+        </h5>
+        <div className="card-body ">
+          <div className="col ">
+            <h6 >Player Name:</h6>
+            <p className="text-truncate">{player.playerName}</p>
+            <h6 >Asset:</h6>
+            <p className="text-truncate">{player.asset}</p>
+          </div>
+          <div className="card-row text-center">
+            <button className="btn btn-primary w-100" onClick={handleSelect}>
+              Select
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -1,58 +1,36 @@
 import { useEffect } from "react";
 import ApiStatus from "../../ApiStatus";
 import { useFetchPlayer } from "../../hooks/PlayersHooks";
+import { Player } from "../../types/player";
 
 type DetailsCardProps = {
   playerId: number;
+  setPlayerData: React.Dispatch<React.SetStateAction<Player | null>>;
 };
 
-const DetailsCard = ({ playerId }: DetailsCardProps) => {
-  const { data, status, isSuccess } = useFetchPlayer(playerId);
+const DetailsCard = ({ playerId, setPlayerData }: DetailsCardProps) => {
+  const { data, isSuccess } = useFetchPlayer(playerId);
 
   useEffect(() => {
-    if (playerId) {
-      console.log(`Fetching player with ID: ${playerId}`);
+    if (data) {
+      setPlayerData(data);
     }
-  }, [playerId]);
+  }, [data, setPlayerData]);
+  
+  if (!isSuccess) return <ApiStatus status={"loading"} />;
+  const player = data || {}; // Assign the fetched player data to a variable or an empty object if data is null
 
-  if (!isSuccess) return <ApiStatus status={status} />;
-  if (!data) return <div>Player Not found</div>;
-
-  const player = data; // Assign the fetched player data to a variable
 
   return (
-    <div className="col-sm-8">
-      <div className="card text-start mb-3 h-100">
-        <h3 className="card-header">{player.Id}</h3>
-        <div className="row">
-          <div className="col-md-4">
-            <img
-              src="https://images.pexels.com/photos/1149831/pexels-photo-1149831.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-              alt=""
-              className="img-fluid rounded-start"
-            />
-          </div>
-          <div className="col-md-8">
-            <div className="card-body">
-              <table className="table table-sm">
-                <tbody>
-                  <tr>
-                    <th>Real Name</th>
-                    <td>{player.RealName}</td>
-                  </tr>
-                  <tr>
-                    <th>Player Name</th>
-                    <td>{player.PlayerName}</td>
-                  </tr>
-                  <tr>
-                    <th>Asset</th>
-                    <td>{player.Asset}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+    <div className="row w-100 g-0">
+      <h3 className="card-header text-center">
+        {player.realName}
+      </h3>
+      <div className="card-body">
+        <h4 className="">Player Name:</h4>
+        <h5 >{player.playerName}</h5>
+        <h4 className="">Asset:</h4>
+        <h5>{player.asset}</h5>
       </div>
     </div>
   );

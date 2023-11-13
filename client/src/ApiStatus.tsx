@@ -7,9 +7,9 @@ const ApiStatus = ({status}: Args) => {
         case "success":
             return <div> Success</div>;
         case "error":
-            return <div> Error Communicating with the data backend</div>;
+            return <div> Error communicating with the data backend</div>;
         case "loading":
-            return <div> Loading...</div>;
+            return <div className="text-center align-center"> Select a player below to start </div>;
         default: throw Error("Unknown API State");
     }        
 };
