@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Player } from "../../types/player";
 import { isNullishCoalesce } from "typescript";
+import { useUpdatePlayer } from "../../hooks/PlayersHooks";
 
 type ControlsCardProps = {
     playerData?: Player | null;
@@ -10,9 +11,12 @@ type ControlsCardProps = {
 
 const ControlsCard = ({ playerData, onSortAscending, onSortDescending }: ControlsCardProps) => {
     
+    const updatePlayerMutation = useUpdatePlayer();
+
     const onSubmit = () => {
         if (playerData) {
           console.log(playerData);
+        updatePlayerMutation.mutate(playerData);
         }
       };
       
